@@ -5,7 +5,7 @@ import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-public class Client {
+public class RMIClient {
     public static void main(String args[]) {
         // usual stuff here... menu, etc...
 
@@ -13,7 +13,7 @@ public class Client {
         String rmi_name = args[1];
 
         try {
-            Services server = (Services) Naming.lookup("rmi://"+address+"/"+rmi_name);
+            RMIServices server = (RMIServices) Naming.lookup("rmi://"+address+"/"+rmi_name);
 
             System.out.println("L'ora attuale e': ");
             System.out.println(server.getDate());

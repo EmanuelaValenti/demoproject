@@ -6,8 +6,8 @@ import java.util.ArrayList;
 import java.util.Date;
 
 public class RMIServer extends UnicastRemoteObject implements RMIServices {
-   //Il server deve avere la PersonList
     PersonList person_list = new PersonList();
+
     protected RMIServer() throws RemoteException {
     }
 
@@ -31,28 +31,42 @@ public class RMIServer extends UnicastRemoteObject implements RMIServices {
 
     @Override
     public ArrayList<Person> getList() throws RemoteException {
-       //quando chiamo da remoto getList, ritorno a chi mi ha chiamato:
-        //invoco Person list, chiamo get list e la torno a chi mi ha chiamato
-        //all'altro lato arriva tutta la lista
         System.out.println("LOG SERVER: invoking getList()");
-       return person_list.getList();
+        return person_list.getList();
     }
 
     @Override
     public void addPerson(Person p) throws RemoteException {
-        System.out.println("LIG SERVER: invoking addPerson");
+        System.out.println("LOG SERVER: invoking addPerson");
         person_list.addPerson(p);
+    }
+
+    @Override
+    public synchronized void doIntensiveTask() throws RemoteException {
+        System.out.println("Thread that invoked doIntensiveTask: "+Thread.currentThread().getName());
+        System.out.println("doing something....");
+        int i = 0;
+        while (i<100) {
+            System.out.println("completed "+i+"% ");
+            i = i +10;
+            try {
+                Thread.sleep(2000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+        System.out.println("COMPLETED!");
+
     }
 
     public static void main(String args[]) {
         try {
             RMIServices RMIServices = new RMIServer();
-            Naming.rebind("dateandtup", RMIServices);
+            Naming.rebind("listserver", RMIServices);
         } catch (RemoteException e) {
             e.printStackTrace();
         } catch (MalformedURLException e) {
             e.printStackTrace();
         }
-        //Assegno il nuovo server, all'interfaccia Services
     }
 }
