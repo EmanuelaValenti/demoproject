@@ -77,8 +77,6 @@ public class RMIServer extends UnicastRemoteObject implements RMIServices {
           registry.rebind("rmiservices", services);
         } catch (RemoteException e) {
             e.printStackTrace();
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
         }
     }
 }
