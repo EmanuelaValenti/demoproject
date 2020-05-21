@@ -13,7 +13,7 @@ public class RMIServer extends UnicastRemoteObject implements RMIServices {
     protected RMIServer() throws RemoteException {
 
    //------------------------------
-        super(7500)//qui ci va la nostra porta
+        super(7500);//qui ci va la nostra porta
   //-------------------------------
 
     }
