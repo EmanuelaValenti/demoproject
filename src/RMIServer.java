@@ -68,9 +68,10 @@ public class RMIServer extends UnicastRemoteObject implements RMIServices {
 
     public static void main(String args[]) {
         try {
-            RMIServices RMIServices = new RMIServer();
+            RMIServices services = new RMIServer();
            //for local tests
-          //  Naming.rebind("listserver", RMIServices);
+          //Services services = new Server();
+         // Naming.rebind("listserver",services);
           System.setProperty("java.rmi.server.hostname","whitelodge.ns0.it");
           Registry registry = LocateRegistry.getRegistry();
           registry.rebind("rmiservices", services);
