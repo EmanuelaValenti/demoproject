@@ -68,12 +68,22 @@ public class RMIServer extends UnicastRemoteObject implements RMIServices {
 
     public static void main(String args[]) {
         try {
-            RMIServices services = new RMIServer();
-           //for local tests
-          //Services services = new Server();
-         // Naming.rebind("listserver",services);
+
+            // for local tests
+            //Naming.rebind("listserver",services);
           System.setProperty("java.rmi.server.hostname","whitelodge.ns0.it");
           Registry registry = LocateRegistry.getRegistry();
+          //-------------------------------------------------------
+          //Prima di creare un'istanza dell'oggetto Server RMI, è necessario impostare la proprietà
+          // dell'hostname di RMI utilizzando il setProperty.
+          // Succcessivamente è necessario individuare rmiregistry con il metodo statico
+          //getRegistry() e solo dopo si può creare il nuovo server in modo che presenti le proprietà da noi inserite.
+          //Se invece facessimo nascere il server prima, questo presenterebbe le condizioni di default,
+          // come il riferimento alla porta 1099, e non le proprietà desiderate dato che in quel caso verrebbero dichiarate
+          // dopo la sua nascita.
+          //--------------------------------------------------------
+          RMIServices services = new RMIServer();
+
           registry.rebind("rmiservices", services);
         } catch (RemoteException e) {
             e.printStackTrace();
